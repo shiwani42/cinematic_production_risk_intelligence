@@ -1,0 +1,85 @@
+https://www.linkedin.com/posts/mbuckalew_filmproduction-productionsafety-artificialintelligence-activity-7486136773241344000-4ny-/
+
+
+The recently announced partnership between A24 and Google DeepMind has sparked important conversations about the future of AI-assisted filmmaking. Most of the discussion has centered on storyboarding, visualization, scheduling, editing workflows, and content creation.
+
+But I believe there is another opportunity that deserves attention: Production Risk Intelligence.
+
+For decades, production safety professionals have worked at the intersection of creativity, operational execution, and risk management—helping filmmakers bring ambitious stories to life while protecting cast, crew, assets, schedules, and budgets.
+As AI becomes more integrated into production workflows, why not use it to help identify and mitigate risk before cameras roll?
+
+Imagine AI-powered tools capable of:
+• Identifying high-risk scenes involving stunts, pyrotechnics, special effects, vehicles, water work, aerial operations, crowd scenes, and environmental hazards.
+• Generating scene-level risk scores based on historical incident and injury data.
+• Predicting potential safety exposures, schedule disruptions, property damage, and production impacts.
+• Integrating hazard identification directly into storyboards, previsualization, and production planning.
+• Providing production leaders with real-time risk dashboards and leading safety indicators.
+• Forecasting crew fatigue, resource needs, and operational readiness.
+
+The goal is not to replace production safety professionals. The goal is to provide filmmakers, producers, executives, and safety leaders with earlier visibility into risk so better-informed decisions can be made during development and pre-production.
+If AI can help predict production delays, optimize schedules, and streamline workflows, it can also help prevent injuries, reduce losses, and improve production resilience.
+The next generation of filmmaking technology should not only enhance creativity and efficiency—it should help make productions safer.
+
+Production Risk Intelligence could become an entirely new category of AI-enabled filmmaking tools, combining predictive analytics, safety metrics, and operational intelligence to support ambitious storytelling while protecting the people who make it possible.
+
+I'd be interested to hear how others in production, safety, technology, and filmmaking view the role of predictive risk analytics in the future of content creation.
+hashtag#FilmProduction hashtag#ProductionSafety hashtag#ArtificialIntelligence hashtag#A24 hashtag#GoogleDeepMind hashtag#Filmmaking hashtag#RiskManagement hashtag#Innovation hashtag#FutureOfWork hashtag#SafetyLeadership
+
+
+the storyboard integration point is the one that would actually work. once a script is broken into a shot list the hazard data has somewhere to attach itself instead of living in a spreadsheet nobody checks on set. crew fatigue forecasting from schedule data alone seems like the hardest one to get right though, too many variables outside the shoot itself
+
+Frank Houbre and in some ways the storyboard integration is already happening through script risk assessments well ahead of filming. I also agree the crew fatigue part is tricky and would consist of a lot more data than just hours worked. It could conceivabley include things like travel distances to set, circadian rhythm data and other biometric info, geographic elevation, etc
+
+
+https://www.linkedin.com/posts/jonathanmoore-safetyprofessional_filmsafety-locationsafety-riskassessment-activity-7498371175878889472-D1tJ/
+
+🎬 THE LOCATION ALREADY HAS HAZARDS. THEN THE PRODUCTION ARRIVES.
+
+A Film/TV Location Risk Assessment shouldn’t stop at identifying the hazards that already exist at a location.
+
+Because once the production arrives, we introduce hazards of our own.
+
+A remote trail may already have unstable terrain, wildlife, extreme weather, limited communications, and delayed emergency response.
+
+Then production brings in:
+- Cameras, tripods, cables, lighting and electrical equipment
+- Production vehicles and increased traffic
+- Drones and other specialty equipment
+- Batteries, generators and temporary power
+- Ladders, platforms and elevated work
+- Cast, crew, vendors and visitors
+- Early calls, night shoots and extended work hours
+- Special effects, practical effects or other high-risk activities
+- Equipment staging and material handling
+- Schedule pressure, fatigue and changing conditions
+
+Suddenly, a location that already presented significant risk has an entirely new layer of hazards.
+
+That is why a strong Location Risk Assessment needs to evaluate three things:
+
+What hazards already exist at the location?
+Terrain, weather, wildlife, structures, water, traffic, environmental conditions, communications, emergency response time and other inherent hazards.
+What hazards will the production introduce?
+Equipment, vehicles, electrical systems, drones, lighting, temporary structures, work practices, crew movement and production activities.
+And perhaps most importantly, how will they interact?
+A cable across a studio floor is one thing. A cable across uneven terrain, in darkness, during rain, while a crew is moving equipment against the clock is something entirely different.
+
+Risk isn't static.
+
+Every time production changes the environment, the risk picture changes with it.
+
+A Location Risk Assessment should never simply ask: “What could hurt us here?”
+
+It should also ask: “What are we bringing here that could make the existing hazards worse or create entirely new ones?”
+
+That distinction can make the difference between a document that checks a box and a risk assessment that actually protects the production.
+
+🎬 The location brings hazards. The production brings hazards.
+
+The Risk Assessment must account for both.
+
+Because there are no second takes when it comes to safety.
+
+If you'd like a complimentary review of your current Safety/Risk Assessment or need one developed from the ground up, send me a direct message. I'd be happy to discuss how I can help your production identify both existing and production-introduced hazards, strengthen mitigation strategies, and keep the production moving safely.
+
+

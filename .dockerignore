@@ -1,0 +1,16 @@
+.venv
+venv
+.git
+.gitignore
+.pytest_cache
+__pycache__
+*.pyc
+.env
+sessions.db
+*.md
+!README.md
+knowledge_dump
+docs
+tests
+.cursor
+*.log
