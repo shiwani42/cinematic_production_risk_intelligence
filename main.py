@@ -20,7 +20,19 @@ from matrix.pipeline import run_assessment
 load_dotenv()
 
 ROOT = Path(__file__).resolve().parent
-SESSION_SERVICE_URI = os.environ.get("SESSION_DB_URI", "sqlite+aiosqlite:///./sessions.db")
+
+
+def _session_db_uri() -> str:
+    configured = os.environ.get("SESSION_DB_URI")
+    if configured:
+        return configured
+    # Cloud Run's container FS is read-only except /tmp (app runs as non-root).
+    if os.environ.get("K_SERVICE"):
+        return "sqlite+aiosqlite:////tmp/sessions.db"
+    return "sqlite+aiosqlite:///./sessions.db"
+
+
+SESSION_SERVICE_URI = _session_db_uri()
 
 app: FastAPI = get_fast_api_app(
     agents_dir=str(ROOT),
