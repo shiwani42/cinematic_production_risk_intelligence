@@ -31,12 +31,14 @@ hazard_agent = LlmAgent(
 fatigue_agent = LlmAgent(
     name="fatigue_forecaster",
     model=MODEL,
-    description="Forecasts crew fatigue from call sheet hours, days, commute, and elevation.",
+    description="Forecasts crew fatigue from hours, days, circadian, commute, altitude, and lot×role fusion.",
     instruction=(
         "You are an occupational-health specialist for film crews. "
-        "Call forecast_crew_fatigue for each crew member. "
+        "Call forecast_crew_fatigue for each crew member. Pass location_context when you have it "
+        "so heat, fire, elevation, and remote commute can raise a heavy role. "
         "Times past midnight can be 24+ (2 AM = 26). "
-        "Escalate anyone ≥ 80. Flag ≥ 60 plus heavy equipment or heights."
+        "Escalate anyone ≥ 80. Flag ≥ 60 plus heavy equipment or heights. "
+        "Read factor_breakdown — do not invent a single hours-only number."
     ),
     tools=[forecast_crew_fatigue],
 )
@@ -44,10 +46,12 @@ fatigue_agent = LlmAgent(
 location_agent = LlmAgent(
     name="location_enricher",
     model=MODEL,
-    description="Adds weather season, terrain, EMS, and permit context for a filming location.",
+    description="Adds lot baseline plus optional live web intel (fire, weather, permits, EMS).",
     instruction=(
         "You are a location safety researcher. "
         "Call enrich_location_context with the location name and shoot date. "
+        "Use the lot table as the baseline. If citations are present, treat them as review notes "
+        "with URLs — not certified EMS times. "
         "Flag EMS > 30 min, elevation > 1500m, and remote lots. "
         "Always say: scout in person and confirm EMS with local dispatch."
     ),

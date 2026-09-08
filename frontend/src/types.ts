@@ -45,6 +45,9 @@ export type Fatigue = {
   risk_level: string;
   hours_on_set: number;
   top_contributing_factors: string[];
+  role_load?: string;
+  fusion_notes?: string[];
+  factor_breakdown?: Record<string, number>;
 };
 
 export type Brief = {
@@ -67,13 +70,17 @@ export type Brief = {
     location_name: string;
     location_type: string;
     elevation_m: number;
-    weather?: { seasonal_summary?: string };
+    data_confidence?: string;
+    weather?: { seasonal_summary?: string; live_summary?: string; seasonal_risks?: string[] };
     emergency_services?: {
       nearest_trauma_center?: string;
       estimated_response_time_minutes?: number;
       cell_coverage?: string;
     };
     terrain_hazards?: string[];
+    citations?: { title: string; url: string; publish_date?: string | null; excerpt?: string }[];
+    live_signals?: string[];
+    live_intel?: { used?: boolean; source?: string | null; error?: string };
   };
   emergency_reference: { nearest_trauma: string; response_time: string; on_set_protocol: string[] };
   action_items: { priority: string; action: string }[];
@@ -96,6 +103,7 @@ export type Stack = {
   model: string;
   sub_agents: string[];
   gemini_configured: boolean;
+  parallel_configured?: boolean;
   apps: string[];
 };
 

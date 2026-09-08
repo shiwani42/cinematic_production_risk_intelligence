@@ -17,6 +17,7 @@ def test_stack_exposes_adk_and_sub_agents():
         assert body["root_agent"] == "matrix_orchestrator"
         assert "hazard_scanner" in body["sub_agents"]
         assert body["apps"] == ["matrix"]
+        assert "parallel_configured" in body
 
 
 def test_list_apps_discovers_matrix():

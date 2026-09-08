@@ -36,3 +36,37 @@ def test_easy_day_is_low():
     )
     assert result["risk_level"] in {"minimal", "low"}
     assert result["fatigue_score"] < 40
+
+
+def test_heavy_role_on_hot_lot_scores_higher_than_office():
+    lot = {
+        "location_type": "remote",
+        "weather": {"seasonal_risks": ["Heat stress", "Wildfire season"]},
+        "terrain_hazards": [],
+        "live_signals": ["wildfire / fire-weather"],
+    }
+    grip = forecast_crew_fatigue(
+        "Key Grip",
+        "G&E",
+        6.0,
+        20.0,
+        4,
+        80,
+        location_elevation_m=1900,
+        physically_demanding_role=True,
+        location_context=lot,
+    )
+    office = forecast_crew_fatigue(
+        "Production Coordinator",
+        "Production Office",
+        6.0,
+        20.0,
+        4,
+        80,
+        location_elevation_m=1900,
+        physically_demanding_role=False,
+        location_context=lot,
+    )
+    assert grip["fatigue_score"] > office["fatigue_score"]
+    assert grip["factor_breakdown"]["environment_role_fusion"] > 0
+    assert grip["fusion_notes"]

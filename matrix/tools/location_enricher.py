@@ -1,6 +1,10 @@
-"""Location lookup: terrain, EMS, permits, seasonal risk. Known lots first, defaults otherwise."""
+"""Location lookup: known lots first, optional Parallel live layer, defaults otherwise."""
 
 from __future__ import annotations
+
+import os
+
+from matrix.tools.parallel_intel import live_location_intel, merge_live_intel
 
 LOCATION_DATABASE = {
     "vasquez rocks": {
@@ -87,10 +91,17 @@ SEASONAL_RISKS = {
 }
 
 
+def _should_call_live() -> bool:
+    if os.environ.get("PYTEST_CURRENT_TEST"):
+        return False
+    return bool(os.environ.get("PARALLEL_API_KEY"))
+
+
 def enrich_location_context(
     location_name: str,
     shoot_date: str,
     location_type: str = "practical_location",
+    live: bool | None = None,
 ) -> dict:
     key = location_name.lower().strip()
     matched = None
@@ -135,17 +146,17 @@ def enrich_location_context(
     if elevation > 2000:
         multiplier = max(multiplier, 1.2)
 
-    return {
+    record = {
         "location_name": location_name,
         "shoot_date": shoot_date,
         "location_type": loc_type,
         "elevation_m": elevation,
         "weather": {
             "seasonal_summary": season["summary"],
-            "seasonal_risks": season["risks"],
+            "seasonal_risks": list(season["risks"]),
             "recommendation": "Lock a 10-day forecast 48h before the shoot",
         },
-        "terrain_hazards": terrain,
+        "terrain_hazards": list(terrain),
         "emergency_services": {
             "nearest_trauma_center": trauma,
             "estimated_response_time_minutes": response,
@@ -160,5 +171,21 @@ def enrich_location_context(
         "regulatory": {"permit_notes": permits},
         "risk_multiplier": multiplier,
         "data_confidence": confidence,
+        "citations": [],
+        "live_signals": [],
+        "live_intel": {"used": False, "source": None},
         "disclaimer": "Scout the lot. Confirm with local authorities. This is a planning start, not a certified assessment.",
     }
+
+    use_live = _should_call_live() if live is None else live
+    if use_live:
+        fetched = live_location_intel(location_name, shoot_date)
+        if fetched.get("ok") and fetched.get("results"):
+            record = merge_live_intel(record, fetched["results"])
+        else:
+            record["live_intel"] = {
+                "used": False,
+                "source": "parallel",
+                "error": fetched.get("error") or "empty",
+            }
+    return record

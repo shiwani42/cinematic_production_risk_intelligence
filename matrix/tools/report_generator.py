@@ -13,6 +13,8 @@ def _apply_interactions(scenes: list[dict], crew: list[dict], location: dict) ->
     season = " ".join(location.get("weather", {}).get("seasonal_risks", [])).lower()
     cell = location.get("emergency_services", {}).get("cell_coverage", "")
     tired = any(c.get("fatigue_score", 0) >= 60 for c in crew)
+    nadir = any((c.get("factor_breakdown") or {}).get("circadian_disruption", 0) >= 14 for c in crew)
+    live_fire = any("fire" in s or "heat" in s for s in location.get("live_signals") or [])
     out = []
 
     for scene in scenes:
@@ -29,6 +31,12 @@ def _apply_interactions(scenes: list[dict], crew: list[dict], location: dict) ->
         if tired and scene.get("hazard_count", 0) >= 2:
             extra += 2
             notes.append("Fatigued crew on a multi-hazard scene")
+        if nadir and scene.get("base_risk_score", 0) >= 6:
+            extra += 1.0
+            notes.append("Circadian nadir on a high-hazard scene")
+        if live_fire and "pyrotechnics" in flags:
+            extra += 0.5
+            notes.append("Live web: fire-weather mentioned on a pyro day")
         if "pyrotechnics" in flags and ("wildfire" in season or "heat" in season or "dry" in terrain):
             extra += 1.5
             notes.append("Pyro on fire-prone / hot terrain")

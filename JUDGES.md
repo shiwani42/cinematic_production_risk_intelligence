@@ -8,10 +8,12 @@ Most AI film tools storyboard or schedule. Safety still lives in a spreadsheet n
 
 Secret Compass drafts a generic RA. MATRIX does the thing safety people actually argue about:
 
-1. What hazards does the **lot already have**?
+1. What hazards does the **lot already have**? (known lots + optional live web, cited)
 2. What does the **unit introduce**?
 3. How do they **collide**?
 4. Hang the answer on the **shot list**, not a tab nobody checks.
+
+Fatigue is not hours alone: circadian, commute, altitude, week load, and lot × role (a 16-hour grip on a fire-prone lot is not a 16-hour coordinator).
 
 ## Click path
 
@@ -28,7 +30,9 @@ Secret Compass drafts a generic RA. MATRIX does the thing safety people actually
 | You see | Stack |
 |---|---|
 | Four-agent trace on the report | `google-adk` tools the Gemini agents also call |
-| `/` chat + Step 4 “Run matrix_orchestrator” | Live ADK `LlmAgent` + Gemini (needs `GOOGLE_API_KEY`) |
+| Live lot sources (when a Parallel key is set) | Parallel Search excerpts + URLs; lot table is the fallback |
+| Crew fusion notes | Multi-source fatigue, not a neural net — see `docs/SCORING.md` |
+| `/` chat + dashboard Ask | Live ADK `LlmAgent` + Gemini (needs a Gemini or Vertex key) |
 | IBM track | IBM Bob as the development partner — see `BOB_USAGE.md` |
 
 Deterministic tools are intentional. Aviation does not let the model invent stall speeds. The model routes and narrates; the tools score.

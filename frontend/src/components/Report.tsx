@@ -30,6 +30,23 @@ export function Report({ brief, rows }: { brief: Brief; rows: HazardRow[] }) {
         </div>
       )}
 
+      {!!brief.location_intelligence?.citations?.length && (
+        <div className="cut bg-white p-5 mb-10" data-reveal>
+          <p className="text-[12px] font-display font-bold text-muted uppercase tracking-[0.16em] mb-3">Live lot sources</p>
+          <p className="text-xs text-slate mb-3 normal-case tracking-normal font-normal">
+            Review these. They do not replace a scout or dispatch.
+          </p>
+          <ul className="space-y-2 text-sm normal-case tracking-normal">
+            {brief.location_intelligence.citations.map((c) => (
+              <li key={c.url || c.title}>
+                <a className="text-orange underline" href={c.url} target="_blank" rel="noreferrer">{c.title}</a>
+                {c.excerpt ? <span className="block text-muted text-xs mt-0.5 font-normal">{c.excerpt}</span> : null}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {!!brief.agent_trace?.length && (
         <div className="cut bg-white p-5 mb-10" data-reveal>
           <p className="text-[12px] font-display font-bold text-muted uppercase tracking-[0.16em] mb-3">How this draft was built</p>

@@ -35,8 +35,8 @@ The app itself is Google ADK + Gemini. Bob is the development partner, not a run
 | File | Prompt |
 |---|---|
 | `hazard_scanner.py` | Keyword-to-category map with severity scores |
-| `fatigue_forecaster.py` | Hours, consecutive days, circadian, commute, altitude |
-| `location_enricher.py` | Lot database + seasonal risk + EMS |
+| `fatigue_forecaster.py` | Hours, days, circadian, commute, altitude, lot×role fusion |
+| `location_enricher.py` | Lot table + optional Parallel live intel + EMS |
 | `report_generator.py` | Combine the three signals; score location × production interaction |
 
 **Suggestions adopted:** _note 2–3_

@@ -40,3 +40,7 @@ def test_sample_western_end_to_end():
     assert brief["thesis"]["collisions"]
     assert len(brief["agent_trace"]) == 4
     assert brief["agent_trace"][0]["agent"] == "hazard_scanner"
+    crew = brief["crew_fatigue_summary"]["all"]
+    assert crew[0]["factor_breakdown"]["environment_role_fusion"] >= 0
+    assert "citations" in brief["location_intelligence"]
+    assert brief["location_intelligence"]["live_intel"]["used"] is False

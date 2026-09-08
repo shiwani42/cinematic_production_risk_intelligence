@@ -71,7 +71,7 @@ def _gemini_ready() -> bool:
 
 @app.get("/api/health")
 async def health_check():
-    return {"status": "ok", "product": "MATRIX", "agent": "matrix", "version": "1.1.0"}
+    return {"status": "ok", "product": "MATRIX", "agent": "matrix", "version": "1.2.0"}
 
 
 @app.get("/api/stack")
@@ -86,6 +86,7 @@ async def stack_status():
         "model": MODEL,
         "sub_agents": [a.name for a in (root_agent.sub_agents or [])],
         "gemini_configured": _gemini_ready(),
+        "parallel_configured": bool(os.environ.get("PARALLEL_API_KEY")),
         "apps": ["matrix"],
     }
 

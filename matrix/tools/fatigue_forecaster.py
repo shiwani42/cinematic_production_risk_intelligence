@@ -1,6 +1,78 @@
-"""Five-factor crew fatigue model: hours, consecutive days, circadian, commute, altitude."""
+"""Crew fatigue: hours, days, circadian, commute, altitude, then environment × role fusion.
+
+The Liu paper's useful idea is multi-source load, not a neural net. We keep every
+term visible so a supervisor can audit the score.
+"""
 
 from __future__ import annotations
+
+HEAVY_MARKERS = (
+    "g&e",
+    "grip",
+    "electric",
+    "lighting",
+    "stunt",
+    "camera",
+    "construction",
+    "locations",
+    "special effects",
+    "sfx",
+    "key grip",
+    "best boy",
+)
+LIGHT_MARKERS = ("script", "office", "accounting", "casting")
+
+
+def _role_weight(crew_role: str, department: str, physically_demanding_role: bool) -> tuple[float, str]:
+    blob = f"{crew_role} {department}".lower()
+    if physically_demanding_role or any(m in blob for m in HEAVY_MARKERS):
+        return 1.12, "heavy_set_role"
+    if any(m in blob for m in LIGHT_MARKERS):
+        return 0.92, "low_exertion_role"
+    return 1.0, "standard_role"
+
+
+def _env_text(location_context: dict | None) -> str:
+    if not location_context:
+        return ""
+    weather = location_context.get("weather") or {}
+    parts = [
+        " ".join(location_context.get("terrain_hazards") or []),
+        " ".join(weather.get("seasonal_risks") or []),
+        weather.get("seasonal_summary") or "",
+        weather.get("live_summary") or "",
+        " ".join(location_context.get("live_signals") or []),
+        location_context.get("location_type") or "",
+    ]
+    return " ".join(parts).lower()
+
+
+def _environment_fusion(
+    hours_worked: float,
+    circadian_score: float,
+    commute_score: float,
+    altitude_m: float,
+    physically: bool,
+    location_context: dict | None,
+) -> tuple[float, list[str]]:
+    """Paper §3: environment and job load change fatigue. Transparent bumps only."""
+    text = _env_text(location_context)
+    loc_type = (location_context or {}).get("location_type", "")
+    bump = 0.0
+    notes: list[str] = []
+    if hours_worked > 10 and any(k in text for k in ("heat", "wildfire", "fire")):
+        bump += 8
+        notes.append("Long day on heat / fire-prone lot")
+    if altitude_m > 1800 and physically:
+        bump += 6
+        notes.append("Heavy role at elevation")
+    if circadian_score >= 14 and physically:
+        bump += 6
+        notes.append("Circadian load on a physical role")
+    if loc_type == "remote" and commute_score >= 10:
+        bump += 4
+        notes.append("Remote lot plus long drive")
+    return min(bump, 18), notes
 
 
 def forecast_crew_fatigue(
@@ -14,6 +86,7 @@ def forecast_crew_fatigue(
     is_overnight_shoot: bool = False,
     days_since_last_rest_day: int = 0,
     physically_demanding_role: bool = False,
+    location_context: dict | None = None,
 ) -> dict:
     hours_worked = wrap_time_24h - call_time_24h
     if hours_worked <= 0:
@@ -41,6 +114,8 @@ def forecast_crew_fatigue(
     elif days_since_last_rest_day >= 5:
         consec_score = min(consec_score + 12, 30)
 
+    week_load = min(round(consecutive_shoot_days * (hours_worked / 12.0) * 3, 1), 12)
+
     if is_overnight_shoot or call_time_24h >= 23.0 or call_time_24h < 4.5:
         circadian_score = 22
     elif call_time_24h < 5.5 or call_time_24h >= 21.0:
@@ -63,7 +138,32 @@ def forecast_crew_fatigue(
     else:
         altitude_score = 0
 
-    fatigue_score = min(round(hours_score + consec_score + circadian_score + commute_score + altitude_score, 1), 100)
+    role_weight, role_label = _role_weight(crew_role, department, physically_demanding_role)
+    hours_adj = round(hours_score * role_weight, 1)
+    altitude_adj = round(altitude_score * (1.15 if role_weight > 1 else 1.0), 1)
+
+    fusion_score, fusion_notes = _environment_fusion(
+        hours_worked,
+        circadian_score,
+        commute_score,
+        location_elevation_m,
+        physically_demanding_role or role_weight > 1,
+        location_context,
+    )
+
+    fatigue_score = min(
+        round(
+            hours_adj
+            + consec_score
+            + week_load
+            + circadian_score
+            + commute_score
+            + altitude_adj
+            + fusion_score,
+            1,
+        ),
+        100,
+    )
 
     if fatigue_score >= 80:
         risk_level = "critical"
@@ -96,15 +196,18 @@ def forecast_crew_fatigue(
         recs.append("Hot meals + hydration on the overnight; invite fatigue self-report")
     if commute_score >= 10:
         recs.append(f"Hotel or production transport — {travel_to_set_km:.0f} km to set")
-    if altitude_score >= 7:
+    if altitude_adj >= 7:
         recs.append(f"48h acclimatisation at {location_elevation_m:.0f}m before high-exertion work")
+    recs.extend(fusion_notes)
 
     factors = {
-        "hours_on_set": hours_score,
+        "hours_on_set": hours_adj,
         "consecutive_days": consec_score,
+        "week_load": week_load,
         "circadian_disruption": circadian_score,
         "commute": commute_score,
-        "altitude": altitude_score,
+        "altitude": altitude_adj,
+        "environment_role_fusion": fusion_score,
     }
 
     return {
@@ -115,6 +218,8 @@ def forecast_crew_fatigue(
         "risk_level": risk_level,
         "top_contributing_factors": [k for k, v in sorted(factors.items(), key=lambda x: -x[1])[:2] if v > 0],
         "factor_breakdown": factors,
+        "role_load": role_label,
+        "fusion_notes": fusion_notes,
         "recommendations": recs,
         "turnaround_hours_required": turnaround_hours,
         "requires_supervisor_notification": fatigue_score >= 60,

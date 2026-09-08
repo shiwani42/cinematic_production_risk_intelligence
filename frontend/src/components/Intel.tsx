@@ -62,7 +62,13 @@ export function Intel({
             <div className="h-1.5 bg-cream mt-2 overflow-hidden">
               <div className="h-full bg-orange" style={{ width: `${Math.min(100, c.fatigue_score)}%` }} />
             </div>
-            <p className="text-xs text-muted mt-1 normal-case tracking-normal font-normal">{(c.top_contributing_factors || []).join(" · ")} · {c.hours_on_set}h</p>
+            <p className="text-xs text-muted mt-1 normal-case tracking-normal font-normal">
+              {(c.top_contributing_factors || []).join(" · ")} · {c.hours_on_set}h
+              {c.role_load ? ` · ${c.role_load.replace(/_/g, " ")}` : ""}
+            </p>
+            {!!c.fusion_notes?.length && (
+              <p className="text-xs text-slate mt-1 normal-case tracking-normal font-normal">{c.fusion_notes.join(" · ")}</p>
+            )}
           </div>
         ))}
       </div>
@@ -70,7 +76,18 @@ export function Intel({
       <h2 className="text-lg mb-3">Location</h2>
       <div className="cut bg-white px-5 py-4 mb-10 text-sm normal-case tracking-normal">
         {loc.location_name} · {loc.location_type} · {loc.elevation_m}m
+        {loc.data_confidence ? <p className="text-xs text-muted mt-1 font-normal">Confidence: {loc.data_confidence}</p> : null}
         <p className="text-muted mt-1 font-normal">Nearest trauma: {ems.nearest_trauma_center} ({ems.estimated_response_time_minutes} min) · cell {ems.cell_coverage}</p>
+        {loc.weather?.live_summary ? <p className="text-slate mt-2 font-normal">{loc.weather.live_summary}</p> : null}
+        {!!loc.citations?.length && (
+          <ul className="mt-3 space-y-1 text-xs">
+            {loc.citations.map((c) => (
+              <li key={c.url || c.title}>
+                <a className="text-orange underline" href={c.url} target="_blank" rel="noreferrer">{c.title}</a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <h2 className="text-lg mb-2">Ask a question</h2>

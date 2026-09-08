@@ -52,6 +52,7 @@ def run_assessment(
                 is_overnight_shoot=bool(member.get("is_overnight_shoot", False)),
                 days_since_last_rest_day=int(member.get("days_since_last_rest_day", 0)),
                 physically_demanding_role=bool(member.get("physically_demanding_role", False)),
+                location_context=location,
             )
         )
 
@@ -98,7 +99,10 @@ def _agent_trace(scenes, crew, location, register) -> list[dict]:
         {
             "agent": "fatigue_forecaster",
             "tool": "forecast_crew_fatigue",
-            "detail": f"{len(crew)} crew scored · {len(tired)} at ≥60",
+            "detail": (
+                f"{len(crew)} crew scored · {len(tired)} at ≥60 · "
+                "hours × role × lot fusion"
+            ),
         },
         {
             "agent": "location_enricher",
@@ -107,6 +111,11 @@ def _agent_trace(scenes, crew, location, register) -> list[dict]:
                 f"{location.get('location_name')} · {location.get('location_type')} · "
                 f"EMS {location.get('emergency_services', {}).get('estimated_response_time_minutes')} min · "
                 f"{location.get('data_confidence')}"
+                + (
+                    f" · {len(location.get('citations') or [])} live sources"
+                    if location.get("citations")
+                    else ""
+                )
             ),
         },
         {
@@ -120,6 +129,8 @@ def _agent_trace(scenes, crew, location, register) -> list[dict]:
 def _thesis(brief: dict, location: dict, crew: list) -> dict:
     """The idea judges must see: lot hazards × production hazards × the collision."""
     loc_brings = list(location.get("terrain_hazards", [])[:3])
+    if location.get("live_signals"):
+        loc_brings.append("Live web: " + ", ".join(location["live_signals"][:3]))
     if location.get("emergency_services", {}).get("estimated_response_time_minutes", 0) > 20:
         loc_brings.append(
             f"EMS {location['emergency_services']['estimated_response_time_minutes']} min to trauma"
