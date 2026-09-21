@@ -13,30 +13,27 @@
 
 | Step | Tool |
 |------|------|
-| Browser capture | Python 3 + **Playwright** Chromium (`demo/record_walkthrough.py`) |
-| Resolution | 1280×720, 30 fps → `demo/raw/walkthrough.webm` |
-| Edit / titles | **ffmpeg** 6.x (`demo/build_final.sh`) — ink/orange title cards, concat, caption burn-in |
-| Captions | `demo/captions.srt` (English, bottom-centered) |
+| Dashboard capture | `demo/record_walkthrough.py` → `demo/raw/walkthrough.webm` |
+| Dev UI capture | `demo/record_devui.py` → `demo/raw/devui.webm` (dismisses **No Thanks** telemetry modal, opens **edit** agent graph) |
+| Assembly | `demo/build_final.sh` — 10 s intro, **xfade** dashboard→Dev UI (no hard cut / black flash), 26 s closing cards, caption burn-in |
+| Resolution | 1280×720, 30 fps, H.264 |
 
 ## Live quirks observed
 
-- **Cold start:** First dashboard GET ~0.14s during this session (instance already warm). Script uses `networkidle` + 4.5s hero hold to absorb spin-up on cold views.
-- **Analyze latency:** `POST /api/analyze` for sample western ~**0.17–0.5s** warm; UI overlay ~2–5s depending on animation and paint.
-- **Judge demo button:** Skips wizard; lands directly on **Assessment** (`judgeDemo` in `useAssessment.ts`).
-- **Parallel citations:** Not required for demo; lot table baseline always present. Citions block appears only when `PARALLEL_API_KEY` is set on the service.
-- **Gemini Ask:** Intel “Ask” panel shows “Add a Gemini key…” when unset — not shown in cut (draft path is tools-only).
-- **Print:** Print button shown; `window.print()` not triggered (would open system dialog and break headless capture).
+- **ADK telemetry modal:** First visit shows **Help Improve ADK!** — recording clicks **No Thanks** before showing agent structure.
+- **Dev UI graph:** Click the **edit** (pencil) control to open **Agent Structure** with `matrix_orchestrator` and four sub-agents; raw capture trims ~7.8 s lead-in so the crossfade lands on the graph, not an empty Events pane.
+- **Transition:** Dashboard and Dev UI are separate Playwright recordings joined with a **0.45 s crossfade** (avoids `page.goto` black frame in a single capture).
 
 ## Repro
 
 ```bash
-pip install playwright
-python3 -m playwright install chromium
+pip install playwright && python3 -m playwright install chromium
 python3 demo/record_walkthrough.py
+python3 demo/record_devui.py
 bash demo/build_final.sh
 ```
 
 ## Output
 
-- Raw walkthrough: ~**83.5 s**
-- Final with titles + captions: ~**162.5 s** (`demo/MATRIX_demo_final.mp4`, H.264 yuv420p, faststart, no audio track)
+- Raw dashboard: ~**100 s**; Dev UI graph segment: ~**12 s** (after trim)
+- Final with 10 s intro + 26 s closing + crossfade: ~**145 s** (`demo/MATRIX_demo_final.mp4`)
