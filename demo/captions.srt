@@ -1,0 +1,95 @@
+1
+00:00:00,500 --> 00:00:05,000
+Most AI film tools storyboard or schedule.
+
+2
+00:00:05,000 --> 00:00:10,500
+Safety still lives in a spreadsheet nobody opens after call.
+
+3
+00:00:10,500 --> 00:00:14,500
+MATRIX scores lot hazards, unit hazards, and how they collide.
+
+4
+00:00:14,500 --> 00:00:19,500
+MATRIX — Production Risk Intelligence for 1st ADs and safety supervisors.
+
+5
+00:00:19,500 --> 00:00:24,500
+A shoot-specific draft you can print — not a chatbot essay.
+
+6
+00:00:24,500 --> 00:00:30,000
+Live dashboard: Try the sample western.
+
+7
+00:00:30,000 --> 00:00:36,000
+Analyze completes in seconds using deterministic specialist tools.
+
+8
+00:00:36,000 --> 00:00:42,500
+The location already · The unit brings · Review this first.
+
+9
+00:00:42,500 --> 00:00:49,000
+Four ADK agents with named tools on the trace panel.
+
+10
+00:00:49,000 --> 00:00:55,500
+Tools score; the model routes and narrates — like aviation checklists.
+
+11
+00:00:55,500 --> 00:01:02,000
+Hazard register grouped for supervisor sign-off.
+
+12
+00:01:02,000 --> 00:01:08,500
+Shot list view — Scene 12 scored critical at ten of ten.
+
+13
+00:01:08,500 --> 00:01:15,000
+Pyro, horse, cliff, helicopter, night — the collision moment.
+
+14
+00:01:15,000 --> 00:01:21,500
+Fatigue merges hours, circadian, commute, altitude, lot and role.
+
+15
+00:01:21,500 --> 00:01:28,000
+Key Grip fusion notes — long day on a fire-prone lot.
+
+16
+00:01:28,000 --> 00:01:34,000
+Location intel: Vasquez baseline and EMS timing.
+
+17
+00:01:34,000 --> 00:01:40,000
+Print or Download JSON for the safety meeting.
+
+18
+00:01:40,000 --> 00:01:47,000
+Google ADK Dev UI shows matrix_orchestrator.
+
+19
+00:01:47,000 --> 00:01:54,000
+Built with Google ADK, Gemini, Cloud Run — four specialists.
+
+20
+00:01:54,000 --> 00:02:01,000
+IBM track: IBM Bob as development partner — see BOB_USAGE.md.
+
+21
+00:02:01,000 --> 00:02:08,000
+Full RA product: brief, hazards, assessment, export.
+
+22
+00:02:08,000 --> 00:02:15,000
+Impact: dry-brush pyro under a helicopter with a fatigued grip.
+
+23
+00:02:15,000 --> 00:02:21,000
+That is collision — not a single high fire label.
+
+24
+00:02:21,000 --> 00:02:42,000
+Try it: matrix-632958340118.us-central1.run.app/dashboard

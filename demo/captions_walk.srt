@@ -1,0 +1,55 @@
+1
+00:00:00,000 --> 00:00:05,500
+Live on Google Cloud Run — Try the sample western judge demo.
+
+2
+00:00:05,500 --> 00:00:11,000
+Tools analyze script, call sheet, and lot baseline — no Gemini required on this path.
+
+3
+00:00:11,000 --> 00:00:17,500
+Three thesis cards: location already, unit introduces, do not roll until sign-off.
+
+4
+00:00:17,500 --> 00:00:24,000
+Four ADK specialists: hazard_scanner, fatigue_forecaster, location_enricher, risk_synthesizer.
+
+5
+00:00:24,000 --> 00:00:30,500
+Deterministic tools score. Gemini routes and narrates when enabled.
+
+6
+00:00:30,500 --> 00:00:37,000
+RA table: Hazard, Likelihood, Consequence, Controls — ready to print.
+
+7
+00:00:37,000 --> 00:00:43,500
+Details view: risk on the shot list where supervisors actually work.
+
+8
+00:00:43,500 --> 00:00:50,500
+Scene 12 — canyon night: pyro, horse, cliff, helicopter — 10 of 10 critical.
+
+9
+00:00:50,500 --> 00:00:57,000
+Crew fatigue fuses hours, circadian, commute, altitude, and lot times role.
+
+10
+00:00:57,000 --> 00:01:03,500
+Key Grip: fusion notes show collision beyond hours alone.
+
+11
+00:01:03,500 --> 00:01:09,500
+Vasquez baseline: EMS, elevation, remote lot — scout in person.
+
+12
+00:01:09,500 --> 00:01:15,500
+Print or Download JSON — take the draft to the safety meeting.
+
+13
+00:01:15,500 --> 00:01:22,500
+ADK Dev UI: same matrix_orchestrator root agent as production.
+
+14
+00:01:22,500 --> 00:01:28,000
+IBM track: IBM Bob helped architecture, tools, and review — BOB_USAGE.md in repo.
